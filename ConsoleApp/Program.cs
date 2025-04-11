@@ -22,8 +22,8 @@ namespace ConsoleApp
             Propertilərin dəyərini set edin daha sonra consola yazdırın.
             methodları call edin
             */
-            User user = new User();
-            Type userType = typeof(User);
+            var userType = typeof(User);
+            var userInstance = Activator.CreateInstance(userType);
 
             var idField = userType.GetField("id", BindingFlags.NonPublic | BindingFlags.Instance);
             var nameField = userType.GetField("name", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -34,24 +34,24 @@ namespace ConsoleApp
             var showInfoMethod = userType.GetMethod("ShowInfo", BindingFlags.NonPublic | BindingFlags.Instance);
 
             Console.WriteLine("Before:");
-            showInfoMethod.Invoke(user, []);
+            showInfoMethod.Invoke(userInstance, []);
 
-            idField.SetValue(user, Guid.NewGuid());
+            idField.SetValue(userInstance, Guid.NewGuid());
 
-            nameField.SetValue(user, "Tural");
+            nameField.SetValue(userInstance, "Tural");
 
-            surnameField.SetValue(user, "Tahmazli");
+            surnameField.SetValue(userInstance, "Tahmazli");
 
-            changeAgeMethod.Invoke(user, [100]);
+            changeAgeMethod.Invoke(userInstance, [20]);
 
             Console.WriteLine("\nAfter:");
 
-            getFullNameMethod.Invoke(user, []);
+            getFullNameMethod.Invoke(userInstance, []);
 
-            Console.WriteLine(ageField.GetValue(user));
+            Console.WriteLine(ageField.GetValue(userInstance));
 
             Console.WriteLine();
-            showInfoMethod.Invoke(user, []);
+            showInfoMethod.Invoke(userInstance, []);
         }
         class User
         {
