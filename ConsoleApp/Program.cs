@@ -23,7 +23,8 @@ namespace ConsoleApp
             methodları call edin
             */
             var userType = typeof(User);
-            var userInstance = Activator.CreateInstance(userType);
+
+            var userInstance = userType.GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, []).Invoke([]);
 
             var idField = userType.GetField("id", BindingFlags.NonPublic | BindingFlags.Instance);
             var nameField = userType.GetField("name", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -53,13 +54,16 @@ namespace ConsoleApp
             Console.WriteLine();
             showInfoMethod.Invoke(userInstance, []);
         }
-        class User
+        private class User
         {
             Guid id;
-            string name;
-            string surname;
+            string? name;
+            string? surname;
             static int age;
+            User()
+            {
 
+            }
             void GetFullName()
             {
                 Console.WriteLine($"{name} {surname}");
